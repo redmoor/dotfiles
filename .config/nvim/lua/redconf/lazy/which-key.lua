@@ -7,8 +7,8 @@ return {
       delay = 0,     -- Document existing key chains
       spec = {
         { "<leader>f", group = "Find" },
-        { "<leader>t", group = "Toggle" },
-        { "<leader>h", group = "Git Hunk", mode = { "n", "v" } },
+        { "<leader>l", group = "LSP"},
+        { "<leader>s", group = "Search help" },
       },
       icons = {
         mappings = false,
