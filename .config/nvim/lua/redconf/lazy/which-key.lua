@@ -9,6 +9,7 @@ return {
         { "<leader>f", group = "Find" },
         { "<leader>l", group = "LSP"},
         { "<leader>s", group = "Search help" },
+        { "<leader>g", group = "Git" },
       },
       icons = {
         mappings = false,
