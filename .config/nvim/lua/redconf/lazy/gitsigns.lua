@@ -2,14 +2,12 @@ return { -- Adds git related signs to the gutter, as well as utilities for manag
 	"lewis6991/gitsigns.nvim",
   config = function()
     require("gitsigns").setup{
-      opts = {
-        signs = {
-          add = { text = "+" },
-          change = { text = "~" },
-          delete = { text = "_" },
-          topdelete = { text = "‾" },
-          changedelete = { text = "~" },
-        },
+      signs = {
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
       },
       on_attach = function(bufnr)
         local gitsigns = require('gitsigns')
