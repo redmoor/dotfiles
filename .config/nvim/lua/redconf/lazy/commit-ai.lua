@@ -54,11 +54,32 @@ end
 -- Build prompt for Gemini
 function M.build_prompt(diff)
 	return string.format(
-		[[Generate a concise git commit message for this diff. Follow these rules:
-1. Use conventional commits format (add:, fix:, refactor:, test:, style:)
-2. Keep subject line under 72 characters
-3. Use imperative mood ("add feature" not "added feature")
-4. Respond with ONLY the commit message, no explanation or markdown
+		[[Generate an informative git commit message analyzing this diff.
+
+REQUIREMENTS:
+1. Use conventional commits format with appropriate type:
+   - feature: new feature or capability
+   - fix: bug fix
+   - refactor: code restructuring without behavior change
+   - add: extending existing functionality
+   - docs: documentation changes
+   - format: formatting, whitespace (no code change)
+   - test: adding/updating tests
+
+2. Format: "type: description"
+   - Keep total length under 72 characters
+
+3. Be SPECIFIC and INFORMATIVE:
+   - ❌ BAD: "fix: update code", "feat: add feature", "refactor: improve logic"
+   - ✅ GOOD: "fix: handle null user in profile API", "feat: add dark mode toggle", "refactor: extract auth logic to middleware"
+
+4. Focus on WHAT changed and WHY (business logic, not implementation details):
+   - Describe the user-facing change or technical improvement
+   - Include key context (what was broken, what's new, what's better)
+
+6. If multiple changes, focus on the PRIMARY/MOST IMPORTANT change
+
+7. Respond with ONLY the commit message - no explanation, quotes, or markdown
 
 Diff:
 %s]],
