@@ -7,9 +7,16 @@ return {
       layout = {
         preset = "ivy"
       },
+      main = {
+        current = true,
+      },
     },
     image = {
       enabled = true,
+      doc = {
+        enabled = true,
+        inline = false,
+      },
     },
     terminal = {
       shell = "zsh",
@@ -34,6 +41,7 @@ return {
     { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
+    { "<leader>lt", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
     { "<leader>t", function() Snacks.terminal() end, desc = "Terminal" },
   }
 }
