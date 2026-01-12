@@ -55,7 +55,7 @@ end
 function M.build_prompt(diff)
 	return string.format(
 		[[Generate a concise git commit message for this diff. Follow these rules:
-1. Use conventional commits format (feat:, fix:, docs:, refactor:, test:, chore:, style:)
+1. Use conventional commits format (add:, fix:, refactor:, test:, style:)
 2. Keep subject line under 72 characters
 3. Use imperative mood ("add feature" not "added feature")
 4. Respond with ONLY the commit message, no explanation or markdown
@@ -186,14 +186,23 @@ function M.setup(opts)
 		desc = "Generate AI commit message from staged changes",
 	})
 
-	-- Add keymap in commit buffers
+	-- Auto-generate and add keymap in commit buffers
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = "gitcommit",
 		callback = function(event)
+			-- Add keymap for manual regeneration
 			vim.keymap.set("n", "<leader>cm", "<cmd>CommitMsg<cr>", {
 				buffer = event.buf,
 				desc = "Generate AI Commit Message",
 			})
+
+			-- Auto-generate if buffer is empty (first line is empty)
+			vim.schedule(function()
+				local first_line = vim.api.nvim_buf_get_lines(event.buf, 0, 1, false)[1]
+				if first_line == "" or first_line == nil then
+					M.generate()
+				end
+			end)
 		end,
 	})
 end
