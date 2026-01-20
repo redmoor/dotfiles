@@ -185,7 +185,7 @@ function M.generate()
 
 	M.call_gemini_api(prompt, function(message, api_err)
 		if api_err then
-			vim.notify("Failed to generate commit message: " .. api_err, vim.log.levels.ERROR)
+			vim.notify("Failed to generate commit message")
 			return
 		end
 

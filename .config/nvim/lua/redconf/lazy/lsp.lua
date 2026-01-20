@@ -34,6 +34,15 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
         callback = function(event)
+          -- Disable LSP for fugitive buffers
+          local bufname = vim.api.nvim_buf_get_name(event.buf)
+          if bufname:match("^fugitive://") then
+            vim.schedule(function()
+              vim.lsp.buf_detach_client(event.buf, event.data.client_id)
+            end)
+            return
+          end
+
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
