@@ -1,7 +1,7 @@
 ---
 description: Professional in making git commit
 mode: subagent
-model: opencode/grok-code
+model: kimi-for-coding/k2p5
 tools:
   write: false
   edit: false
