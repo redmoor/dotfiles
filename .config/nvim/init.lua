@@ -1,5 +1,6 @@
 require("redconf")
 
+vim.opt.spell = true
 --[[
 
 What is Kickstart?
