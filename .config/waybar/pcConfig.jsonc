@@ -113,7 +113,7 @@
         "tooltip-format": "{ifname} via {gwaddr} ",
         "format-linked": "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
-        "on-click": "hyprctl dispatch exec '[float; size 40% 80%]' iwgtk"
+        "on-click": "kitty --class impala impala"
     },
     "wireplumber": {
         // "scroll-step": 1, // %, can be a float
