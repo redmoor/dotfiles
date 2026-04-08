@@ -11,26 +11,6 @@ return {
         current = true,
       },
     },
-    image = {
-      enabled = true,
-      doc = {
-        enabled = true,
-        inline = false,
-      },
-    },
-    terminal = {
-      shell = "zsh",
-      enabled = true,
-      win = {
-        wo = {
-          winbar = "",
-        },
-        position = "float",
-        height = 0.6,
-        border = "rounded",
-        style = "terminal",
-      },
-    },
   },
   keys = {
     { "<leader>ff", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
@@ -41,7 +21,7 @@ return {
     { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
     { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
+    { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
     { "<leader>lt", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-    { "<leader>t", function() Snacks.terminal() end, desc = "Terminal" },
   }
 }
