@@ -1,37 +1,90 @@
-return	{ -- Highlight, edit, and navigate code
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		main = "nvim-treesitter.configs", -- Sets main module to use for opts
-		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-		opts = {
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"lua",
-				"luadoc",
-				"markdown",
-				"markdown_inline",
-				"query",
-				"vim",
-				"vimdoc",
-			},
-			-- Autoinstall languages that are not installed
-			auto_install = true,
-			highlight = {
-				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
-				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
-				additional_vim_regex_highlighting = { "ruby" },
-			},
-			indent = { enable = true, disable = { "ruby" } },
+return {
+	"romus204/tree-sitter-manager.nvim",
+	lazy = false,
+	opts = {
+		-- Directory where parsers will be installed
+		install_dir = vim.fn.stdpath("data") .. "/site/parser",
+		-- Parsers to ensure are installed
+		ensure_installed = {
+			"bash",
+			"c",
+			"cpp",
+			"css",
+			"diff",
+			"go",
+			"gomod",
+			"gowork",
+			"gosum",
+			"html",
+			"javascript",
+			"json",
+			"lua",
+			"luadoc",
+			"markdown",
+			"markdown_inline",
+			"python",
+			"query",
+			"rust",
+			"tsx",
+			"typescript",
+			"vim",
+			"vimdoc",
+			"yaml",
 		},
-		-- There are additional nvim-treesitter modules that you can use to interact
-		-- with nvim-treesitter. You should go explore a few and see what interests you:
-		--
-		--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-		--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-		--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-	}
+		-- Automatically install parsers when opening files
+		auto_install = true,
+	},
+	config = function(_, opts)
+		require("tree-sitter-manager").setup(opts)
+
+		-- Ensure runtimepath includes parser directory for native treesitter to find parsers
+		vim.opt.runtimepath:prepend(opts.install_dir)
+
+		-- ============================================================================
+		-- Native Tree-sitter Configuration (Neovim 0.12+)
+		-- ============================================================================
+
+		-- Treesitter-based folding
+		vim.opt.foldmethod = "expr"
+		vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.opt.foldlevel = 99 -- Start with all folds open
+		vim.opt.foldtext = ""
+
+    vim.treesitter.language.register('tsx', 'typescriptreact')
+    vim.treesitter.language.register('javascript', 'javascriptreact')
+
+		-- Enable native treesitter highlighting and indentation for any filetype with a parser available
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "*",
+			callback = function(args)
+				local lang = vim.treesitter.language.get_lang(args.match)
+				if not lang then
+					return
+				end
+
+				-- Check if parser exists for this language
+				local has_parser = pcall(vim.treesitter.language.inspect, lang)
+				if not has_parser then
+					return
+				end
+
+				-- Enable syntax highlighting
+				pcall(vim.treesitter.start, args.buf, lang)
+
+				-- Enable treesitter-based indentation (disabled - using smartindent instead)
+				-- vim.bo[args.buf].indentexpr = "v:lua.require'vim.treesitter'.indentexpr()"
+			end,
+		})
+
+		-- Function highlight groups
+		vim.api.nvim_set_hl(0, "@function", { link = "Function" })
+		vim.api.nvim_set_hl(0, "@function.call", { link = "Function" })
+		vim.api.nvim_set_hl(0, "@function.method", { link = "Function" })
+		vim.api.nvim_set_hl(0, "@function.method.call", { link = "Function" })
+		vim.api.nvim_set_hl(0, "@method", { link = "Function" })
+		vim.api.nvim_set_hl(0, "@method.call", { link = "Function" })
+
+		-- Keymap for TSManager
+		vim.keymap.set("n", "<leader>t", ":TSManager<CR>", { desc = "Open [T]ree-sitter Manager", silent = true })
+	end,
+}
