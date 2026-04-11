@@ -10,6 +10,7 @@ return {
         { "<leader>l", group = "LSP"},
         { "<leader>s", group = "Search help" },
         { "<leader>g", group = "Git" },
+        { "<leader>p", group = "Pi" },
       },
       icons = {
         mappings = false,
