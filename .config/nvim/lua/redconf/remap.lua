@@ -35,6 +35,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufLeave", {
+  group = vim.api.nvim_create_augroup("SnacksImageCleanup", { clear = true }),
+  pattern = { "*.png", "*.jpg", "*.jpeg", "*.webp", "*.gif" },
+  callback = function(args)
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(args.buf) then
+        vim.api.nvim_buf_delete(args.buf, { force = true })
+      end
+    end)
+  end,
+})
+
 local help_group = vim.api.nvim_create_augroup("HelpVertical", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
