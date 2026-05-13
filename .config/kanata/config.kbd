@@ -4,8 +4,15 @@
 )
 
 (defsrc
- a s d f j k l ;
+  ;; You need to include ralt here so Kanata can use it as a modifier.
+  ;; The order relative to other keys in defsrc doesn't matter much for this use case,
+  ;; as you're using process-unmapped-keys.
+	q w e r t y u i o p [ ]
+	a s d f g h j k l ;
+	z x c v b n m , . /
+	lmet lalt spc
 )
+
 (defvar
   tap-time 200
   hold-time 200
@@ -20,8 +27,27 @@
   k (tap-hold $tap-time $hold-time k rsft)
   l (tap-hold $tap-time $hold-time l ralt)
   ; (tap-hold $tap-time $hold-time ; rmet)
+  upper (tap-hold 1 1 _ (layer-toggle upper))
+  lower (tap-hold 1 1 _ (layer-toggle lower))
 )
 
 (deflayer base
- @a @s @d @f @j @k @l @;
+	_ _ _ _ _ _ _ _ _ _ _ _
+    	@a @s @d @f g h @j @k @l @;
+	_ _ _ _ _ _ _ _ _ _
+	@upper @lower spc
+)
+
+(deflayer lower
+	f1 f2 f3 f4 f5 f6 f7 f8 f9 f10 f11 f12
+    	1 2 3 4 5 6 7 8 9 0
+	_ = - [ ] bspc _ _ _ _
+	_ _ _
+)
+
+(deflayer upper
+	_ _ _ _ _ _ _ _ _ _ _ _
+    	_ _ _ _ _ left down up right _
+	_ _ _ _ _ _ _ _ _ _
+	_ _ _
 )

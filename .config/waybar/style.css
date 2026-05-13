@@ -29,7 +29,7 @@
 }
 
 window#waybar {
-  background: transparent;
+  background: rgba(17, 17, 27, 0.40);
   color: #b4befe;
 }
 
@@ -90,7 +90,6 @@ button:hover {
 /* Active State: The "Glow" Underline */
 #workspaces button.active {
     color: #ffb3ba;
-    background: linear-gradient(to top, rgba(235, 160, 172, 0.3) 0%, transparent 40%);
     border-bottom: 3px solid #eba0ac;
     text-shadow: 0 0 8px rgba(235, 160, 172, 0.6);
 }
